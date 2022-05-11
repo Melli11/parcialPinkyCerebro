@@ -1,6 +1,8 @@
 
 # Parcial Pinky y Cerebro
 
+![pinky-y-cerebro](https://user-images.githubusercontent.com/54424951/167930135-c94e21d3-e211-4ebc-bcd4-f9a7a7cc4e5c.jpg)
+
 
 **-Cerebro, ¿qué vamos a hacer esta noche? -Lo mismo que hacemos todas las noches, Pinky. ¡Tratar de conquistar el mundo!**
 
