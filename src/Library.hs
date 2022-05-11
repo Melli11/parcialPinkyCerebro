@@ -101,11 +101,26 @@ tieneAlMenosUnaVocal = any esUnaVocal
 -- ● Desarollar experimentoExitoso: Dado un experimento y un animal, indica si al aplicar
 -- sucesivamente todas las transformaciones se cumple el criterio de éxito.
 
--- type TransformacionAnimal = Animal -> Animal 
+type Transformar_Animal = Animal -> Animal
 
--- data Experimento = Experimento {
---     transformacion :: [Animal -> Animal],
---     criterioDeExito :: Animal -> Bool,
--- }
+data Experimento = Experimento {
+    transformacion :: [Transformar_Animal],
+    criterioDeExito :: Animal -> Bool
+}
 
--- unExperimento = Experimento [inteligenciaSuperior 10 ,pinkificar] 
+unExperimento :: Experimento
+unExperimento = Experimento [pinkificar,inteligenciaSuperior 10,superpoderes] antropomórfico 
+
+ratonExperimental :: Animal
+ratonExperimental = Animal 17 "raton" ["destruir el mundo","hacer planes malvados"]
+
+experimentoExitoso :: Animal -> Experimento -> Bool
+experimentoExitoso unAnimal unExperimento = criterioDeExito unExperimento $ foldl aplicarUnExperimiento unAnimal (transformacion unExperimento)
+
+aplicarUnExperimiento :: Animal -> Transformar_Animal -> Animal
+aplicarUnExperimiento unAnimal experimento = experimento unAnimal
+
+
+-- -- Test
+-- experimentoExitoso ratonExperimental 
+-- Animal {coeficienteIntelectual = 27, especie = "raton", capacidades = []}
