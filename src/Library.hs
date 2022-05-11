@@ -2,6 +2,7 @@
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use camelCase" #-}
+{-# HLINT ignore "Avoid lambda using `infix`" #-}
 module Library where
 import PdePreludat
 
@@ -104,17 +105,20 @@ tieneAlMenosUnaVocal = any esUnaVocal
 type Transformar_Animal = Animal -> Animal
 
 data Experimento = Experimento {
-    transformacion :: [Transformar_Animal],
+    transformaciones :: [Transformar_Animal],
     criterioDeExito :: Animal -> Bool
 }
 
 
 
 experimentoExitoso :: Animal -> Experimento -> Bool
-experimentoExitoso unAnimal unExperimento = criterioDeExito unExperimento $ foldl aplicarUnExperimiento unAnimal (transformacion unExperimento)
+experimentoExitoso unAnimal unExperimento = criterioDeExito unExperimento $ aplicarConjuntoDeExperimentos unAnimal unExperimento
 
 aplicarUnExperimiento :: Animal -> Transformar_Animal -> Animal
-aplicarUnExperimiento unAnimal experimento = experimento unAnimal
+aplicarUnExperimiento unAnimal transformacion = transformacion  unAnimal
+
+aplicarConjuntoDeExperimentos :: Animal -> Experimento -> Animal
+aplicarConjuntoDeExperimentos unAnimal unExperimento = foldl aplicarUnExperimiento unAnimal (transformaciones unExperimento)
 
 
 --5. Periódicamente, ACME pide informes sobre los experimentos realizados. Desarrollar los
@@ -140,14 +144,17 @@ listaDeCapacidades = ["nadar", "gritar","no hacer nada"]
 -- 1. una lista con los coeficientes intelectuales de los animales que entre sus capacidades,
 -- luego de efectuar el experimento, tengan ALGUNA de las capacidades dadas.
 
--- ANY
--- primerReporte animalesLista capacidadesLista experimento = any aplicarUnExperimiento animalesLista
+--Construcciones utiles
+-- map (capacidades) listaDeAnimales 
+-- >> [["Ladrar","Jugar"],["hablar","Jugar"],["destruir el mundo","hacer planes malvados"],["Romper las bolas"]]
+-- 
+
+-- map coeficienteIntelectual listaDeAnimales
+-- >> [30,30,17,101]
 
 
 -- 2. una lista con las especie de los animales que, luego de efectuar el experimento, tengan
 -- entre sus capacidades todas las capacidades dadas.
-
--- segundoReporte animalesLista capacidadesLista experimento = 
 
 -- 3. una lista con la cantidad de capacidades de todos los animales que, luego de efectuar el
 -- experimento, no tengan ninguna de las capacidades dadas.
