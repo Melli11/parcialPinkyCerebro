@@ -29,8 +29,8 @@ elefante = Animal 300 "elefante" ["Inteligente"]
 -- 2. Transformar a un animal de laboratorio:
 -- ● inteligenciaSuperior: Incrementa en n unidades su coeficiente intelectual
 
-inteligenciaSuperior :: Animal -> Number -> Animal
-inteligenciaSuperior unAnimal cantidadUnidades = unAnimal { coeficienteIntelectual = coeficienteIntelectual unAnimal + cantidadUnidades}
+inteligenciaSuperior :: Number -> Animal -> Animal
+inteligenciaSuperior cantidadUnidades unAnimal  = unAnimal { coeficienteIntelectual = coeficienteIntelectual unAnimal + cantidadUnidades}
 
 -- ● pinkificar: quitarle todas las habilidades que tenía
 pinkificar :: Animal -> Animal
@@ -72,22 +72,19 @@ tieneLaHabilidad habilidad = elem habilidad . capacidades
 -- función pinkiesco, que significa que la habilidad empieza con “hacer ”, y luego va seguido
 -- de una palabra "pinkiesca", es decir, con 4 letras o menos y al menos una vocal
 
--- noTanCuerdo unAnimal 
---     -- |   tieneMasDe_N_habilidades 2 =  agregarHacerSonidosPinkiescos unAnimal 
---     |   otherwise = unAnimal
+noTanCuerdo :: Animal -> Bool
+noTanCuerdo unAnimal
+       |   tieneMasDe_N_habilidades 2 unAnimal =  any pinkiesco $ capacidades unAnimal
+       |   otherwise = False
+
 tieneMasDe_N_habilidades :: Number -> Animal -> Bool
 tieneMasDe_N_habilidades cantidad = (>cantidad ).length.capacidades
 
-
--- agregarHacerSonidosPinkiescos unAnimal = unAnimal{ capacidades = capacidades unAnimal ++ "hacer" } 
--- pinkiesco palabra = palabra == "hacer" ++ palabraPinkiesca otraPalabra
--- pinkiesco :: String -> Bool
-
 pinkiesco :: String -> Bool
-pinkiesco palabra = empiezaConPalabraHAcer (take 6 palabra)  && palabraPinkiesca (drop 6 palabra)  
+pinkiesco palabra = empiezaConPalabraHAcer (take 6 palabra)  && palabraPinkiesca (drop 6 palabra)
 
 empiezaConPalabraHAcer ::String -> Bool
-empiezaConPalabraHAcer palabra =  palabra == "hacer "  
+empiezaConPalabraHAcer palabra =  palabra == "hacer "
 
 palabraPinkiesca :: String -> Bool
 palabraPinkiesca  palabra = ((<=4) . length) palabra && tieneAlMenosUnaVocal palabra
@@ -104,3 +101,11 @@ tieneAlMenosUnaVocal = any esUnaVocal
 -- ● Desarollar experimentoExitoso: Dado un experimento y un animal, indica si al aplicar
 -- sucesivamente todas las transformaciones se cumple el criterio de éxito.
 
+-- type TransformacionAnimal = Animal -> Animal 
+
+-- data Experimento = Experimento {
+--     transformacion :: [Animal -> Animal],
+--     criterioDeExito :: Animal -> Bool,
+-- }
+
+-- unExperimento = Experimento [inteligenciaSuperior 10 ,pinkificar] 

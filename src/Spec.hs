@@ -8,7 +8,7 @@ correrTests :: IO ()
 correrTests = hspec $ do
     suiteDeTestsDeParte1
     suiteDeTestsDeParte2
-    suiteDeTestsDeParte3
+    -- suiteDeTestsDeParte3
 suiteDeTestsDeParte1 = describe "Punto 1 : Modelando datos" $ do
     let elefante = Animal 300 "elefante" ["Inteligente"]
     describe "Modelos de datos " $ do
@@ -22,7 +22,7 @@ suiteDeTestsDeParte2 = describe "Punto 2: Transformaciones" $ do
     let ratonFalladito = Animal 99 "raton" ["Fallado nomas"]
     describe "Inteligencia Superior" $ do
         it "Dado un animal incremento su inteligencia en n unidades" $ do
-            inteligenciaSuperior perro 20 `shouldBe` Animal {coeficienteIntelectual = 50, especie = "perro", capacidades = ["Ladrar","Jugar"]}
+            inteligenciaSuperior 20 perro `shouldBe` Animal {coeficienteIntelectual = 50, especie = "perro", capacidades = ["Ladrar","Jugar"]}
     describe "Pinkificar" $ do
         it "Dado un animal le saco todas sus habilidades" $ do
             pinkificar perro `shouldBe` Animal {coeficienteIntelectual = 30, especie = "perro", capacidades = []}
@@ -34,17 +34,17 @@ suiteDeTestsDeParte2 = describe "Punto 2: Transformaciones" $ do
         it "Dado un animal que es un raton con iq MENOR a 100 lo dejo como está " $ do
             superpoderes ratonFalladito `shouldBe` Animal 99 "raton" ["Fallado nomas"]
 
-suiteDeTestsDeParte3 = describe "Punto 3: Criterios" $ do 
-    let perroParlante = Animal 30 "perro" ["hablar","Jugar"]
-    let tigre = Animal 61 "tigre" ["Veloz","Camuflar","hablar"]
+-- suiteDeTestsDeParte3 = describe "Punto 3: Criterios" $ do 
+--     let perroParlante = Animal 30 "perro" ["hablar","Jugar"]
+--     let tigre = Animal 61 "tigre" ["Veloz","Camuflar","hablar"]
     
-    describe "Antropomorfico" $ do
-        it "Dado un animal que tiene en su reportorio de capacidades hablar, entonces es parlante " $ do
-            tieneLaHabilidad "hablar" perroParlante `shouldBe` True
-        it "Dado un animal que puede hablar pero tiene Iq menor a 60 entonces NO es antropomorfico " $ do
-            antropomórfico perroParlante `shouldBe` False
-        it "Dado un animal que puede hablar pero y Iq mayor a 60 entonces SI es antropomorfico " $ do
-            antropomórfico tigre `shouldBe` True
+--     describe "Antropomorfico" $ do
+--         it "Dado un animal que tiene en su reportorio de capacidades hablar, entonces es parlante " $ do
+--             tieneLaHabilidad "hablar" perroParlante `shouldBe` True
+--         it "Dado un animal que puede hablar pero tiene Iq menor a 60 entonces NO es antropomorfico " $ do
+--             antropomórfico perroParlante `shouldBe` False
+--         it "Dado un animal que puede hablar pero y Iq mayor a 60 entonces SI es antropomorfico " $ do
+--             antropomórfico tigre `shouldBe` True
     
 
 
