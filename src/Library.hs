@@ -23,7 +23,7 @@ tigre = Animal 61 "tigre" ["Veloz","Camuflar","hablar"]
 
 
 ratonCrack = Animal 101 "raton" ["Romper las bolas"]
-ratonFalladito = Animal 99 "raton" ["Fallado nomas"]
+ratonFalladito = Animal 99 "raton" ["Fallado nomas","hablar"]
 
 elefante = Animal 300 "elefante" ["Inteligente"]
 
@@ -113,11 +113,11 @@ data Experimento = Experimento {
 experimentoExitoso :: Animal -> Experimento -> Bool
 experimentoExitoso unAnimal unExperimento = criterioDeExito unExperimento $ aplicarUnExperimento unAnimal unExperimento
 
-aplicarUnaTransformacion :: Animal -> Transformar_Animal -> Animal
-aplicarUnaTransformacion unAnimal transformacion = transformacion  unAnimal
-
 aplicarUnExperimento :: Animal -> Experimento -> Animal --un experimento es un conjunto de transformaciones
 aplicarUnExperimento unAnimal unExperimento = foldl aplicarUnaTransformacion unAnimal (transformaciones unExperimento)
+
+aplicarUnaTransformacion :: Animal -> Transformar_Animal -> Animal
+aplicarUnaTransformacion unAnimal transformacion = transformacion  unAnimal
 
 
 --5. Periódicamente, ACME pide informes sobre los experimentos realizados. Desarrollar los
@@ -145,6 +145,15 @@ listadoDeCapacidades = ["nadar", "gritar","no hacer nada"] --no deberia retornar
 listadoDeCapacidades2 :: [String]
 listadoDeCapacidades2 = ["no tenerle miedo a los elefantes","hablar","nadar"]
 
+
+-- perro = Animal 30 "perro" ["Ladrar","Jugar"]
+-- perroParlante = Animal 30 "perro" ["hablar","Jugar"]
+-- tigre = Animal 61 "tigre" ["Veloz","Camuflar","hablar"]
+-- ratonCrack = Animal 101 "raton" ["Romper las bolas"]
+-- ratonFalladito = Animal 99 "raton" ["Fallado nomas"]
+-- elefante = Animal 300 "elefante" ["Inteligente"]
+
+
 -- 1. una lista con los coeficientes intelectuales de los animales que entre sus capacidades,
 -- luego de efectuar el experimento, tengan ALGUNA de las capacidades dadas.
 
@@ -168,10 +177,24 @@ listadoDeCapacidades2 = ["no tenerle miedo a los elefantes","hablar","nadar"]
 
 
 
-funcionAux animales exp unaCapacidad =   filter(unaCapacidad ==) $ map (capacidades.flip aplicarUnaTransformacion exp) animales
+-- funcionAux animales exp unaCapacidad =   filter(unaCapacidad ==) $ map (capacidades.flip aplicarUnaTransformacion exp) animales
+
+-- aplicarUnExperimento :: Animal -> Experimento -> Animal --un experimento es un conjunto de transformaciones
+-- aplicarUnExperimento unAnimal unExperimento = foldl aplicarUnaTransformacion unAnimal (transformaciones unExperimento)
+
 
 -- Resolviendo a lo primate
 -- generarReporteDe  animales listaDeCapacidades experimento =    map (capacidades. flip aplicarConjuntoDeExperimentos experimento) animales
+    
+aux animales unaCapacidad experimento = map (capacidades.flip aplicarUnExperimento experimento) animales
+
+
+-- aux animales unaCapacidad experimento = map (capacidades.flip aplicarUnExperimento experimento) animales
+-- [["Ladrar","Jugar"],["hablar","Jugar"],["destruir el mundo","hacer planes malvados"],["hablar","Romper las bolas"]]
+
+
+otroExperimento :: Experimento
+otroExperimento = Experimento [inteligenciaSuperior 10,inteligenciaSuperior 10,superpoderes] antropomórfico
 
 --    tieneAlgunaHabilidadDeLaLista ListaDeHabilidades listadoDeAnimales = filter (tieneLaHabilidad)
 
