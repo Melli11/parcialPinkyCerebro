@@ -137,7 +137,7 @@ ratonExperimental :: Animal
 ratonExperimental = Animal 17 "raton" ["destruir el mundo","hacer planes malvados"]
 
 listadoDeAnimales :: [Animal]
-listadoDeAnimales = [perro,perroParlante,ratonExperimental,ratonCrack]
+listadoDeAnimales = [perro,perroParlante,ratonExperimental,ratonCrack,tigre]
 
 listadoDeCapacidades :: [String]
 listadoDeCapacidades = ["nadar", "gritar","no hacer nada"] --no deberia retornar ningun iq
@@ -184,9 +184,8 @@ listadoDeCapacidades2 = ["no tenerle miedo a los elefantes","hablar","nadar"]
 
 
 -- Resolviendo a lo primate
--- generarReporteDe  animales listaDeCapacidades experimento =    map (capacidades. flip aplicarConjuntoDeExperimentos experimento) animales
-    
-aux animales unaCapacidad experimento = map (capacidades.flip aplicarUnExperimento experimento) animales
+generarReporteDe  animales listaDeCapacidades experimento =   map coeficienteIntelectual.aux 
+aux animales unaCapacidad experimento =  filter (tieneLaHabilidad unaCapacidad)$map (flip aplicarUnExperimento experimento) animales
 
 
 -- aux animales unaCapacidad experimento = map (capacidades.flip aplicarUnExperimento experimento) animales
