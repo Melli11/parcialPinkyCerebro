@@ -64,12 +64,12 @@ siTieneIQMayorA iQ = (>iQ).coeficienteIntelectual
 -- ● antropomórfico: si tiene la habilidad de hablar y su coeficiente es mayor a 60
 
 antropomórfico :: Animal -> Bool
-antropomórfico unAnimal  = siTieneIQMayorA  60 unAnimal && tieneLaHabilidad "hablar" unAnimal --mejorar
+antropomórfico unAnimal  = siTieneIQMayorA  60 unAnimal && tieneLaHabilidad "hablar" unAnimal --Se puede mejorar???
 
 tieneLaHabilidad :: String -> Animal -> Bool
 tieneLaHabilidad habilidad = elem habilidad . capacidades
 
--- noTanCuerdo: si tiene más de dos habilidades debe hacer sonidos pinkiescos. Hacer una
+-- noTanCuerdo: si tiene más de dos habilidades puede hacer sonidos pinkiescos. Hacer una
 -- función pinkiesco, que significa que la habilidad empieza con “hacer ”, y luego va seguido
 -- de una palabra "pinkiesca", es decir, con 4 letras o menos y al menos una vocal
 
@@ -88,7 +88,7 @@ empiezaConPalabraHAcer ::String -> Bool
 empiezaConPalabraHAcer palabra =  palabra == "hacer "
 
 palabraPinkiesca :: String -> Bool
-palabraPinkiesca  palabra = ((<=4) . length) palabra && tieneAlMenosUnaVocal palabra
+palabraPinkiesca  palabra = ((<=4) . length) palabra && tieneAlMenosUnaVocal palabra --Se puede mejorar???
 
 esUnaVocal :: Char -> Bool
 esUnaVocal letra =  letra == 'a' || letra == 'e' || letra == 'i' || letra == 'o' || letra == 'u'
@@ -109,8 +109,6 @@ data Experimento = Experimento {
     criterioDeExito :: Animal -> Bool
 }
 
-
-
 experimentoExitoso :: Animal -> Experimento -> Bool
 experimentoExitoso unAnimal unExperimento = criterioDeExito unExperimento $ aplicarConjuntoDeExperimentos unAnimal unExperimento
 
@@ -125,26 +123,56 @@ aplicarConjuntoDeExperimentos unAnimal unExperimento = foldl aplicarUnExperimien
 -- siguientes reportes, que a partir de una lista de animales, una lista de capacidades y un
 -- experimento (o una serie de transformaciones) permitan obtener:
 
-
 -- data Animal = Animal {
 --     coeficienteIntelectual :: Number,
 --     especie :: String,
 --     capacidades :: [String]
 -- }deriving(Show ,Eq)
+
 unExperimento :: Experimento
 unExperimento = Experimento [pinkificar,inteligenciaSuperior 10,superpoderes] antropomórfico
 
 ratonExperimental :: Animal
 ratonExperimental = Animal 17 "raton" ["destruir el mundo","hacer planes malvados"]
 
-listaDeAnimales = [perro,perroParlante,ratonExperimental,ratonCrack]
+listadoDeAnimales :: [Animal]
+listadoDeAnimales = [perro,perroParlante,ratonExperimental,ratonCrack]
 
-listaDeCapacidades = ["nadar", "gritar","no hacer nada"]
+listadoDeCapacidades :: [String]
+listadoDeCapacidades = ["nadar", "gritar","no hacer nada"] --no deberia retornar ningun iq
+
+listadoDeCapacidades2 :: [String]
+listadoDeCapacidades2 = ["no tenerle miedo a los elefantes","hablar","nadar"]
 
 -- 1. una lista con los coeficientes intelectuales de los animales que entre sus capacidades,
 -- luego de efectuar el experimento, tengan ALGUNA de las capacidades dadas.
 
---Construcciones utiles
+-- 1.aplicar un experimento a cada animal de la lista -> retornar una lista de animales con los experimentos aplicados
+-- 2. machear la lista de strings con la lista de capacidades del punto1.
+-- 3. mapear el iq 
+
+
+-- 1ra idea para evitar la repeticion de logica (Primero resolver)
+-- generarReporteDe:: (Ord a => Animal -> a) -> [Animal] -> [String] -> Experimento
+-- generarReporteDe atributoAnimal animales listaDeCapacidades experimento = 
+
+-- Resolviendo a lo primate
+-- generarReporteDe  animales listaDeCapacidades experimento =    map (capacidades. flip aplicarConjuntoDeExperimentos experimento) animales
+
+--    tieneAlgunaHabilidadDeLaLista ListaDeHabilidades listadoDeAnimales = filter (tieneLaHabilidad)
+
+
+-- 2. una lista con las especie de los animales que, luego de efectuar el experimento, tengan
+-- entre sus capacidades todas las capacidades dadas.
+-- generarReporteDe  animales listaDeCapacidades experimento =    map (especie. flip aplicarConjuntoDeExperimentos experimento) animales
+
+
+
+
+
+-- aplicarConjuntoDeExperimentos :: Animal -> Experimento -> Animal
+-- map (coeficienteIntelectual) . filter () . 
+--  Construcciones utiles
 -- map (capacidades) listaDeAnimales 
 -- >> [["Ladrar","Jugar"],["hablar","Jugar"],["destruir el mundo","hacer planes malvados"],["Romper las bolas"]]
 -- 
@@ -153,8 +181,6 @@ listaDeCapacidades = ["nadar", "gritar","no hacer nada"]
 -- >> [30,30,17,101]
 
 
--- 2. una lista con las especie de los animales que, luego de efectuar el experimento, tengan
--- entre sus capacidades todas las capacidades dadas.
 
 -- 3. una lista con la cantidad de capacidades de todos los animales que, luego de efectuar el
 -- experimento, no tengan ninguna de las capacidades dadas.
