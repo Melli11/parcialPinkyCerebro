@@ -68,7 +68,7 @@ suiteDeTestsDeParte4 = describe "Punto 4: Experimentos" $ do
             experimentoExitoso raton experimentoEjemplo `shouldBe` False
     describe "Aplicar un experimento " $ do
         it "Dado un animal y un experimento si le aplico el experimento al animal, quedando el animal transformado" $ do
-            aplicarUnExperimiento raton pinkificar `shouldBe` Animal 17 "raton" []
+            aplicarUnaTransformacion raton pinkificar `shouldBe` Animal 17 "raton" []
     describe "Aplicar un conjunto de experimentos a un animal " $ do
         it "Dado un animal y un conjunto de experimentos que son aplicados al animal, quedando el animal transformado" $ do
             tieneLaHabilidad "hablar" perroParlante `shouldBe` True

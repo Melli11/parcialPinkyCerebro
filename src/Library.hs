@@ -51,6 +51,7 @@ superpoderes (Animal iq "raton" capacidades )
         |   otherwise = Animal iq "raton" capacidades
 
 
+superpoderes (Animal iq especie capacidades ) = Animal iq especie capacidades
 -- superpoderes ratonCrack Animal {coeficienteIntelectual = 101, especie = "raton", capacidades = ["hablar","Romper las bolas"]}
 -- superpoderes ratonFalladito  Animal {coeficienteIntelectual = 99, especie = "raton", capacidades = ["Fallado nomas"]}
 
@@ -110,13 +111,13 @@ data Experimento = Experimento {
 }
 
 experimentoExitoso :: Animal -> Experimento -> Bool
-experimentoExitoso unAnimal unExperimento = criterioDeExito unExperimento $ aplicarConjuntoDeExperimentos unAnimal unExperimento
+experimentoExitoso unAnimal unExperimento = criterioDeExito unExperimento $ aplicarUnExperimento unAnimal unExperimento
 
-aplicarUnExperimiento :: Animal -> Transformar_Animal -> Animal
-aplicarUnExperimiento unAnimal transformacion = transformacion  unAnimal
+aplicarUnaTransformacion :: Animal -> Transformar_Animal -> Animal
+aplicarUnaTransformacion unAnimal transformacion = transformacion  unAnimal
 
-aplicarConjuntoDeExperimentos :: Animal -> Experimento -> Animal
-aplicarConjuntoDeExperimentos unAnimal unExperimento = foldl aplicarUnExperimiento unAnimal (transformaciones unExperimento)
+aplicarUnExperimento :: Animal -> Experimento -> Animal --un experimento es un conjunto de transformaciones
+aplicarUnExperimento unAnimal unExperimento = foldl aplicarUnaTransformacion unAnimal (transformaciones unExperimento)
 
 
 --5. Periódicamente, ACME pide informes sobre los experimentos realizados. Desarrollar los
@@ -151,21 +152,32 @@ listadoDeCapacidades2 = ["no tenerle miedo a los elefantes","hablar","nadar"]
 -- 2. machear la lista de strings con la lista de capacidades del punto1.
 -- 3. mapear el iq 
 
+-- TRABADO MAAL
 
 -- 1ra idea para evitar la repeticion de logica (Primero resolver)
 -- generarReporteDe:: (Ord a => Animal -> a) -> [Animal] -> [String] -> Experimento
 -- generarReporteDe atributoAnimal animales listaDeCapacidades experimento = 
+
+-- -- CONSEJO DE JUAN
+-- Consejo: empeza de a 1 y después mete listas si se complica encarar todo junto
+-- Por ej: una lista de animales, un experimento y una capacidad
+-- Extraes la parte que usas para filtrar los animales
+-- Y después modificas eso para que funcione con muchas capacidades
+
+-- funcionAux :: [Animal] -> Experimento -> String -> Animal
+
+
+
+funcionAux animales exp unaCapacidad =   filter(unaCapacidad ==) $ map (capacidades.flip aplicarUnaTransformacion exp) animales
 
 -- Resolviendo a lo primate
 -- generarReporteDe  animales listaDeCapacidades experimento =    map (capacidades. flip aplicarConjuntoDeExperimentos experimento) animales
 
 --    tieneAlgunaHabilidadDeLaLista ListaDeHabilidades listadoDeAnimales = filter (tieneLaHabilidad)
 
-
+-- generarPrimerReporte = filter.any 
 -- 2. una lista con las especie de los animales que, luego de efectuar el experimento, tengan
 -- entre sus capacidades todas las capacidades dadas.
--- generarReporteDe  animales listaDeCapacidades experimento =    map (especie. flip aplicarConjuntoDeExperimentos experimento) animales
-
 
 
 
