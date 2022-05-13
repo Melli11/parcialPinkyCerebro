@@ -3,6 +3,9 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use camelCase" #-}
 {-# HLINT ignore "Avoid lambda using `infix`" #-}
+{-# HLINT ignore "Use section" #-}
+{-# HLINT ignore "Redundant map" #-}
+{-# HLINT ignore "Eta reduce" #-}
 module Library where
 import PdePreludat
 
@@ -184,8 +187,35 @@ listadoDeCapacidades2 = ["no tenerle miedo a los elefantes","hablar","nadar"]
 
 
 -- Resolviendo a lo primate
-generarReporteDe  animales listaDeCapacidades experimento =   map coeficienteIntelectual.aux 
-aux animales unaCapacidad experimento =  filter (tieneLaHabilidad unaCapacidad)$map (flip aplicarUnExperimento experimento) animales
+-- generarReporteDe  animales listaDeCapacidades experimento =   map aux 
+-- aux animales unaCapacidad experimento =  any (tieneLaHabilidad unaCapacidad)$map (flip aplicarUnExperimento experimento) animales
+
+-- Para 1 animal 1 experimento 1 capacidad 
+-- aux  experimento animal unaCapacidad =   elem unaCapacidad $ capacidades $ aplicarUnExperimento animal experimento
+
+-- generarReporteDe  experimento animales listaDeCapacidades  = filter (aux experimento animales) listaDeCapacidades
+
+
+
+
+-- primerReporte = tieneAlgunasHabilidadesDe CapacidadesEsperadas listaDeAnimales $ efectuarUnExperimentoSobreListaAnimal listaDeAnimales experimento
+
+efectuarUnExperimentoSobreListaAnimal :: [Animal] -> Experimento -> [Animal]
+efectuarUnExperimentoSobreListaAnimal listaAnimal experimento = map (flip aplicarUnExperimento experimento) listaAnimal
+
+
+-- tieneAlgunasDe  :: String -> [Animal] ->[String] -> [Animal]
+tieneUnaCapacidadDada :: String -> [Animal] -> [Animal]
+tieneUnaCapacidadDada unaCapacidad listaAnimal = filter (tieneLaHabilidad unaCapacidad) listaAnimal
+
+paraUnaTransformacion ::  Transformar_Animal -> Animal -> String -> Bool
+paraUnaTransformacion  unaTransf unAnimal unaCapacidad =  tieneLaHabilidad unaCapacidad $ aplicarUnaTransformacion unAnimal unaTransf 
+
+-- primerReporte listaAnimal experimento listadoDeCapacidades = map (paraUnaTransformacion $transformaciones experimento ) listaAnimal
+
+-- tieneLaHabilidad :: String -> Animal -> Bool
+-- tieneLaHabilidad habilidad = elem habilidad . capacidades
+
 
 
 -- aux animales unaCapacidad experimento = map (capacidades.flip aplicarUnExperimento experimento) animales
