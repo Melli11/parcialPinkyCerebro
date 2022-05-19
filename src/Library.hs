@@ -122,12 +122,16 @@ aplicarUnaTransformacion unAnimal transformacion = transformacion  unAnimal
 -- luego de efectuar el experimento, tengan ALGUNA de las capacidades dadas.
 
 
-primerReporteIQ :: [String] -> [Animal] -> Experimento -> [Animal]
-primerReporteIQ  listaDeCapacidades listaAnimal  = flip tienenAlgunasCapacidades listaDeCapacidades . efectuarUnExperimentoSobreListaAnimal listaAnimal 
+primerInforme_IQ :: [String] -> [Animal] -> Experimento -> [Number]
+primerInforme_IQ  listaDeCapacidades listaAnimal  = losIQdeLosAnimales . flip tienenAlgunasCapacidades listaDeCapacidades . efectuarUnExperimentoSobreListaAnimal listaAnimal 
 
 -- F auxiliar 
 efectuarUnExperimentoSobreListaAnimal :: [Animal] -> Experimento -> [Animal]
 efectuarUnExperimentoSobreListaAnimal listadoDeAnimales experimento = map (flip aplicarUnExperimento experimento) listadoDeAnimales
+
+-- F auxiliar 
+losIQdeLosAnimales :: [Animal] -> [Number] 
+losIQdeLosAnimales = map coeficienteIntelectual
 
 -- data Animal = Animal {
 --     coeficienteIntelectual :: Number,
@@ -152,10 +156,21 @@ tieneAlgunaCapacidad listaDeCapacidades animal = any (flip tieneLaHabilidad anim
 -- tieneLaHabilidad habilidad = elem habilidad . capacidades
 
 
-
-
 -- 2. una lista con las especie de los animales que, luego de efectuar el experimento, tengan
 -- entre sus capacidades todas las capacidades dadas.
+
+-- segundoInforme_Especies ::  
+segundoInforme_Especies :: [String] -> [Animal] -> Experimento -> [String]
+segundoInforme_Especies listaDeCapacidades listaAnimal  = lasEspeciesdeLosAnimales . flip tienenTodasLasCapacidades listaDeCapacidades . efectuarUnExperimentoSobreListaAnimal listaAnimal 
+
+lasEspeciesdeLosAnimales :: [Animal] -> [String]
+lasEspeciesdeLosAnimales = map especie
+
+tienenTodasLasCapacidades :: [Animal] -> [String] -> [Animal]
+tienenTodasLasCapacidades  listadoDeAnimales lasCapacidades = filter (tieneTodasLasCapacidades lasCapacidades) listadoDeAnimales  
+
+tieneTodasLasCapacidades :: [String] -> Animal -> Bool
+tieneTodasLasCapacidades listaDeCapacidades animal = all (flip tieneLaHabilidad animal) listaDeCapacidades
 
 
 -- 3. una lista con la cantidad de capacidades de todos los animales que, luego de efectuar el
@@ -199,4 +214,4 @@ listadoDeCapacidades :: [String]
 listadoDeCapacidades = ["nadar", "gritar","no hacer nada"] --no deberia retornar ningun iq
 
 listadoDeCapacidades2 :: [String]
-listadoDeCapacidades2 = ["no tenerle miedo a los elefantes","hablar","nadar"]
+listadoDeCapacidades2 = ["Veloz","Camuflar","hablar"] --devuelve tigre en 2do informe
