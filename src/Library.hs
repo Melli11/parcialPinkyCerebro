@@ -176,7 +176,20 @@ tieneTodasLasCapacidades listaDeCapacidades animal = all (flip tieneLaHabilidad 
 -- 3. una lista con la cantidad de capacidades de todos los animales que, luego de efectuar el
 -- experimento, no tengan ninguna de las capacidades dadas.
 
+tercerInforme_CantidadCapacidades :: [String] -> [Animal] -> Experimento -> [Number]
+tercerInforme_CantidadCapacidades listaDeCapacidades listaAnimal =  laCantidadDeCapacidades . flip noTienenTodasLasCapacidades listaDeCapacidades . efectuarUnExperimentoSobreListaAnimal listaAnimal
 
+laCantidadDeCapacidades :: [Animal] -> [Number]
+laCantidadDeCapacidades  = map (length.capacidades)
+
+noTienenTodasLasCapacidades :: [Animal] -> [String] -> [Animal]
+noTienenTodasLasCapacidades  listadoDeAnimales lasCapacidades = filter (noTieneTodasLasCapacidades lasCapacidades) listadoDeAnimales  
+
+noTieneTodasLasCapacidades :: [String] -> Animal -> Bool
+noTieneTodasLasCapacidades listaDeCapacidades animal = all (flip noTieneLaHabilidad animal) listaDeCapacidades
+
+noTieneLaHabilidad :: String -> Animal -> Bool
+noTieneLaHabilidad habilidad = (== False). elem habilidad . capacidades
 
 -- Variables Auxiliares
 -- ejemplos de animales
