@@ -123,7 +123,7 @@ aplicarUnaTransformacion unAnimal transformacion = transformacion  unAnimal
 
 
 primerInforme_IQ :: [String] -> [Animal] -> Experimento -> [Number]
-primerInforme_IQ  listaDeCapacidades listaAnimal  = losIQdeLosAnimales . flip tienenAlgunasCapacidades listaDeCapacidades . efectuarUnExperimentoSobreListaAnimal listaAnimal 
+primerInforme_IQ  listaDeCapacidades listaAnimal  = losIQdeLosAnimales .  tienenAlgunasCapacidades listaDeCapacidades . efectuarUnExperimentoSobreListaAnimal listaAnimal 
 
 -- F auxiliar 
 efectuarUnExperimentoSobreListaAnimal :: [Animal] -> Experimento -> [Animal]
@@ -133,21 +133,11 @@ efectuarUnExperimentoSobreListaAnimal listadoDeAnimales experimento = map (flip 
 losIQdeLosAnimales :: [Animal] -> [Number] 
 losIQdeLosAnimales = map coeficienteIntelectual
 
--- data Animal = Animal {
---     coeficienteIntelectual :: Number,
---     especie :: String,
---     capacidades :: [String]
--- }deriving(Show ,Eq)
+-- F auxiliar 
 
--- data Experimento = Experimento {
---     transformaciones :: [Transformar_Animal],
---     criterioDeExito :: Animal -> Bool
--- }
+tienenAlgunasCapacidades ::  [String] -> [Animal] -> [Animal]
+tienenAlgunasCapacidades  lasCapacidades listadoDeAnimales = filter (tieneAlgunaCapacidad lasCapacidades) listadoDeAnimales  
 
--- 2F auxiliar 
-
-tienenAlgunasCapacidades :: [Animal] -> [String] -> [Animal]
-tienenAlgunasCapacidades listadoDeAnimales lasCapacidades = filter (tieneAlgunaCapacidad lasCapacidades) listadoDeAnimales  
 
 tieneAlgunaCapacidad :: [String] -> Animal -> Bool
 tieneAlgunaCapacidad listaDeCapacidades animal = any (flip tieneLaHabilidad animal) listaDeCapacidades
@@ -161,13 +151,13 @@ tieneAlgunaCapacidad listaDeCapacidades animal = any (flip tieneLaHabilidad anim
 
 -- segundoInforme_Especies ::  
 segundoInforme_Especies :: [String] -> [Animal] -> Experimento -> [String]
-segundoInforme_Especies listaDeCapacidades listaAnimal  = lasEspeciesdeLosAnimales . flip tienenTodasLasCapacidades listaDeCapacidades . efectuarUnExperimentoSobreListaAnimal listaAnimal 
+segundoInforme_Especies listaDeCapacidades listaAnimal  = lasEspeciesdeLosAnimales . tienenTodasLasCapacidades listaDeCapacidades . efectuarUnExperimentoSobreListaAnimal listaAnimal 
 
 lasEspeciesdeLosAnimales :: [Animal] -> [String]
 lasEspeciesdeLosAnimales = map especie
 
-tienenTodasLasCapacidades :: [Animal] -> [String] -> [Animal]
-tienenTodasLasCapacidades  listadoDeAnimales lasCapacidades = filter (tieneTodasLasCapacidades lasCapacidades) listadoDeAnimales  
+tienenTodasLasCapacidades ::[String] -> [Animal]  -> [Animal]
+tienenTodasLasCapacidades   lasCapacidades listadoDeAnimales = filter (tieneTodasLasCapacidades lasCapacidades) listadoDeAnimales  
 
 tieneTodasLasCapacidades :: [String] -> Animal -> Bool
 tieneTodasLasCapacidades listaDeCapacidades animal = all (flip tieneLaHabilidad animal) listaDeCapacidades
@@ -177,13 +167,13 @@ tieneTodasLasCapacidades listaDeCapacidades animal = all (flip tieneLaHabilidad 
 -- experimento, no tengan ninguna de las capacidades dadas.
 
 tercerInforme_CantidadCapacidades :: [String] -> [Animal] -> Experimento -> [Number]
-tercerInforme_CantidadCapacidades listaDeCapacidades listaAnimal =  laCantidadDeCapacidades . flip noTienenTodasLasCapacidades listaDeCapacidades . efectuarUnExperimentoSobreListaAnimal listaAnimal
+tercerInforme_CantidadCapacidades listaDeCapacidades listaAnimal =  laCantidadDeCapacidades .  noTienenTodasLasCapacidades listaDeCapacidades . efectuarUnExperimentoSobreListaAnimal listaAnimal
 
 laCantidadDeCapacidades :: [Animal] -> [Number]
 laCantidadDeCapacidades  = map (length.capacidades)
 
-noTienenTodasLasCapacidades :: [Animal] -> [String] -> [Animal]
-noTienenTodasLasCapacidades  listadoDeAnimales lasCapacidades = filter (noTieneTodasLasCapacidades lasCapacidades) listadoDeAnimales  
+noTienenTodasLasCapacidades :: [String] -> [Animal]  -> [Animal]
+noTienenTodasLasCapacidades  lasCapacidades listadoDeAnimales  = filter (noTieneTodasLasCapacidades lasCapacidades) listadoDeAnimales  
 
 noTieneTodasLasCapacidades :: [String] -> Animal -> Bool
 noTieneTodasLasCapacidades listaDeCapacidades animal = all (flip noTieneLaHabilidad animal) listaDeCapacidades
