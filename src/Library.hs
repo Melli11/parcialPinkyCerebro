@@ -1,11 +1,8 @@
-{-# OPTIONS_GHC -Wno-overlapping-patterns #-}
-{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use camelCase" #-}
-{-# HLINT ignore "Avoid lambda using `infix`" #-}
-{-# HLINT ignore "Use section" #-}
-{-# HLINT ignore "Redundant map" #-}
 {-# HLINT ignore "Eta reduce" #-}
+{-# HLINT ignore "Use section" #-}
+
 module Library where
 import PdePreludat
 
@@ -18,7 +15,6 @@ data Animal = Animal {
     especie :: String,
     capacidades :: [String]
 }deriving(Show ,Eq)
-
 
 
 -- 2. Transformar a un animal de laboratorio:
